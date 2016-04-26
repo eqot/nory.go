@@ -6,9 +6,11 @@ import (
 	"net/http"
 )
 
-func Sequential(urls []string) {
-	for _, url := range urls {
-		res, err := http.Get(url)
+var urlBase string = "https://search.maven.org/solrsearch/select?rows=20&wt=json&q="
+
+func Sequential(artifacts []string) {
+	for _, artifact := range artifacts {
+		res, err := http.Get(urlBase + artifact)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -21,12 +23,12 @@ func Sequential(urls []string) {
 	}
 }
 
-func Parallel(urls []string) {
+func Parallel(artifacts []string) {
 	statusChan := make(chan string)
 
-	for _, url := range urls {
-		go func(url string) {
-			res, err := http.Get(url)
+	for _, artifact := range artifacts {
+		go func(artifact string) {
+			res, err := http.Get(urlBase + artifact)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -37,10 +39,10 @@ func Parallel(urls []string) {
 			// fmt.Println(string(body))
 			// fmt.Println(url, res.Status)
 			statusChan <- res.Status
-		}(url)
+		}(artifact)
 	}
 
-	for i := 0; i < len(urls); i++ {
+	for i := 0; i < len(artifacts); i++ {
 		fmt.Println(<-statusChan)
 	}
 }

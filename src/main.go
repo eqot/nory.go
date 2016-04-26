@@ -9,10 +9,10 @@ import (
 )
 
 func main() {
-	urls := []string{
-		"https://search.maven.org/solrsearch/select?rows=20&wt=json&q=okhttp",
-		"https://search.maven.org/solrsearch/select?rows=20&wt=json&q=butterknife",
-		"https://search.maven.org/solrsearch/select?rows=20&wt=json&q=rxjava",
+	artifacts := []string{
+		"okhttp",
+		"butterknife",
+		"rxjava",
 	}
 
 	app := cli.NewApp()
@@ -28,7 +28,7 @@ func main() {
 			Aliases: []string{"s"},
 			Usage:   "Run tasks sequentially",
 			Action: func(c *cli.Context) {
-				artifact.Sequential(urls)
+				artifact.Sequential(artifacts)
 			},
 		},
 		{
@@ -36,7 +36,7 @@ func main() {
 			Aliases: []string{"p"},
 			Usage:   "Run tasks parallelly",
 			Action: func(c *cli.Context) {
-				artifact.Parallel(urls)
+				artifact.Parallel(artifacts)
 			},
 		},
 		{
