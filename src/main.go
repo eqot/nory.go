@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"./lib/artifact"
 	"github.com/codegangsta/cli"
+	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 )
 
@@ -59,6 +61,9 @@ func main() {
 					table.Append(v)
 				}
 				table.Render()
+
+				green := color.New(color.FgGreen).SprintFunc()
+				fmt.Printf("%s Successfully installed.\n", green("\u2713"))
 			},
 		},
 	}
